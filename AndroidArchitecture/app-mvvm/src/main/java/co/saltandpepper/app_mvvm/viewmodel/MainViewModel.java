@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import co.saltandpepper.app_mvvm.ArchiApplication;
+import co.saltandpepper.app_mvvm.ArchitectureApplication;
 import co.saltandpepper.app_mvvm.R;
 import co.saltandpepper.app_mvvm.model.GitHubService;
 import co.saltandpepper.app_mvvm.model.Repository;
@@ -49,10 +49,6 @@ public class MainViewModel implements ViewModel {
         recyclerViewVisibility = new ObservableInt(View.INVISIBLE);
         searchButtonVisibility = new ObservableInt(View.GONE);
         infoMessage = new ObservableField<>(context.getString(R.string.default_info_message));
-    }
-
-    public void setDataListener(DataListener dataListener) {
-        this.dataListener = dataListener;
     }
 
     @Override
@@ -101,8 +97,8 @@ public class MainViewModel implements ViewModel {
         recyclerViewVisibility.set(View.INVISIBLE);
         infoMessageVisibility.set(View.INVISIBLE);
         if (subscription != null && !subscription.isUnsubscribed()) subscription.unsubscribe();
-        ArchiApplication application = ArchiApplication.get(context);
-        GitHubService githubService = application.getGithubService();
+        ArchitectureApplication application = ArchitectureApplication.get(context);
+        GitHubService githubService = application.getGitHubService();
         subscription = githubService.publicRepositories(username)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(application.defaultSubscribeScheduler())

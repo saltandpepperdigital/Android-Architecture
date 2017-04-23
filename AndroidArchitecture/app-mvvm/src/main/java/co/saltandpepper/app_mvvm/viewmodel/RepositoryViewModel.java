@@ -4,13 +4,12 @@ import android.content.Context;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
-import co.saltandpepper.app_mvvm.ArchiApplication;
+import co.saltandpepper.app_mvvm.ArchitectureApplication;
 import co.saltandpepper.app_mvvm.R;
 import co.saltandpepper.app_mvvm.model.GitHubService;
 import co.saltandpepper.app_mvvm.model.Repository;
@@ -27,12 +26,9 @@ import rx.functions.Action1;
  * ViewModel for the RepositoryActivity
  */
 public class RepositoryViewModel implements ViewModel {
-
-    private static final String TAG = "RepositoryViewModel";
-
-    private Repository repository;
-    private Context context;
-    private Subscription subscription;
+    private Repository mRepository;
+    private Context mContext;
+    private Subscription mSubscription;
 
     public ObservableField<String> ownerName;
     public ObservableField<String> ownerEmail;
@@ -42,8 +38,8 @@ public class RepositoryViewModel implements ViewModel {
     public ObservableInt ownerLayoutVisibility;
 
     public RepositoryViewModel(Context context, final Repository repository) {
-        this.repository = repository;
-        this.context = context;
+        this.mRepository = repository;
+        this.mContext = context;
         this.ownerName = new ObservableField<>();
         this.ownerEmail = new ObservableField<>();
         this.ownerLocation = new ObservableField<>();
@@ -59,37 +55,37 @@ public class RepositoryViewModel implements ViewModel {
     }
 
     public String getDescription() {
-        return repository.description;
+        return mRepository.description;
     }
 
     public String getHomepage() {
-        return repository.homepage;
+        return mRepository.homepage;
     }
 
     public int getHomepageVisibility() {
-        return repository.hasHomepage() ? View.VISIBLE : View.GONE;
+        return mRepository.hasHomepage() ? View.VISIBLE : View.GONE;
     }
 
     public String getLanguage() {
-        return context.getString(R.string.text_language, repository.language);
+        return mContext.getString(R.string.text_language, mRepository.language);
     }
 
     public int getLanguageVisibility() {
-        return repository.hasLanguage() ? View.VISIBLE : View.GONE;
+        return mRepository.hasLanguage() ? View.VISIBLE : View.GONE;
     }
 
     public int getForkVisibility() {
-        return repository.isFork() ? View.VISIBLE : View.GONE;
+        return mRepository.isFork() ? View.VISIBLE : View.GONE;
     }
 
     public String getOwnerAvatarUrl() {
-        return repository.owner.avatarUrl;
+        return mRepository.owner.avatarUrl;
     }
 
     @Override
     public void destroy() {
-        this.context = null;
-        if (subscription != null && !subscription.isUnsubscribed()) subscription.unsubscribe();
+        this.mContext = null;
+        if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
     }
 
     @BindingAdapter({"imageUrl"})
@@ -101,15 +97,14 @@ public class RepositoryViewModel implements ViewModel {
     }
 
     private void loadFullUser(String url) {
-        ArchiApplication application = ArchiApplication.get(context);
-        GitHubService githubService = application.getGithubService();
-        subscription = githubService.userFromUrl(url)
+        ArchitectureApplication application = ArchitectureApplication.get(mContext);
+        GitHubService githubService = application.getGitHubService();
+        mSubscription = githubService.userFromUrl(url)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(application.defaultSubscribeScheduler())
                 .subscribe(new Action1<User>() {
                     @Override
                     public void call(User user) {
-                        Log.i(TAG, "Full user data loaded " + user);
                         ownerName.set(user.name);
                         ownerEmail.set(user.email);
                         ownerLocation.set(user.location);

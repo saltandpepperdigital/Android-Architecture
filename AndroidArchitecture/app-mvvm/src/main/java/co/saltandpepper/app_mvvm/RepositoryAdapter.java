@@ -17,19 +17,14 @@ import co.saltandpepper.app_mvvm.viewmodel.ItemRepoViewModel;
  */
 
 public class RepositoryAdapter extends RecyclerView.Adapter<RepositoryAdapter.RepositoryViewHolder> {
-
-    private List<Repository> repositories;
+    private List<Repository> mRepositories;
 
     public RepositoryAdapter() {
-        this.repositories = Collections.emptyList();
+        this.mRepositories = Collections.emptyList();
     }
 
-    public RepositoryAdapter(List<Repository> repositories) {
-        this.repositories = repositories;
-    }
-
-    public void setRepositories(List<Repository> repositories) {
-        this.repositories = repositories;
+    public void setRepositories(List<Repository> mRepositories) {
+        this.mRepositories = mRepositories;
     }
 
     @Override
@@ -44,12 +39,12 @@ public class RepositoryAdapter extends RecyclerView.Adapter<RepositoryAdapter.Re
 
     @Override
     public void onBindViewHolder(RepositoryViewHolder holder, int position) {
-        holder.bindRepository(repositories.get(position));
+        holder.bindRepository(mRepositories.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return repositories.size();
+        return mRepositories.size();
     }
 
     public static class RepositoryViewHolder extends RecyclerView.ViewHolder {
