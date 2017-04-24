@@ -1,5 +1,5 @@
 # Android-Architecture
-We present in Android-Architecture demo 3 type of Android architecture.
+We present in Android-Architecture demo 3 types of Android architecture.
 
 There are currently three major approaches to architecting your Android apps:
 1.	Standard Android (Model-View-Controller)
