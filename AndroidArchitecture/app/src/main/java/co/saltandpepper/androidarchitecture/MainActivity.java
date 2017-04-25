@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
         setContentView(R.layout.activity_main);
         mProgressBar = (ProgressBar) findViewById(R.id.progress);
         mTvInfo = (TextView) findViewById(R.id.text_info);
