@@ -1,0 +1,3 @@
+[submodule "Android-Architecture"]
+	path = Android-Architecture
+	url = git@www.saltandpepper.click:Tutorials/Android/Android-Architecture.git
